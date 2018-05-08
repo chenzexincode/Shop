@@ -112,4 +112,14 @@
     <servlet-name>AdminOrderServlet</servlet-name>
     <url-pattern>/adminOrder</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CheckUsernameServlet</display-name>
+    <servlet-name>CheckUsernameServlet</servlet-name>
+    <servlet-class>com.shop.web.servlet.CheckUsernameServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckUsernameServlet</servlet-name>
+    <url-pattern>/checkUsername</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -35,6 +35,88 @@ font {
 }
 </style>
 <script type="text/javascript">
+	
+	//自定义校验规则
+	$.validator.addMethod(
+		//规则的名称
+		"checkUsername",
+		//校验的函数
+		function(value,element,params){
+			
+			//定义一个标志
+			var flag = false;
+			
+			//value:输入的内容
+			//element:被校验的元素对象
+			//params：规则对应的参数值
+			//目的：对输入的username进行ajax校验
+			$.ajax({
+				"async":false,
+				"url":"${pageContext.request.contextPath}/user?method=checkUsername",
+				"data":{"username":value},
+				"type":"POST",
+				"dataType":"json",
+				"success":function(data){
+					flag = data.isExist;
+				}
+			});
+			
+			
+			//返回false代表该校验器不通过
+			return !flag;
+		}
+		
+	);
+
+
+	$(function(){
+		$("#form1").validate({
+			rules:{
+				"username":{
+					"required":true,
+					"checkUsername":true
+				},
+				"password":{
+					"required":true,
+					"rangelength":[6,12]
+				},
+				"repassword":{
+					"required":true,
+					"rangelength":[6,12],
+					"equalTo":"#password"
+				},
+				"email":{
+					"required":true,
+					"email":true
+				},
+				"sex":{
+					"required":true
+				}
+			},
+			messages:{
+				"username":{
+					"required":"用户名不能为空",
+					"checkUsername":"用户名已存在"
+				},
+				"password":{
+					"required":"密码不能为空",
+					"rangelength":"密码长度6-12位"
+				},
+				"repassword":{
+					"required":"密码不能为空",
+					"rangelength":"密码长度6-12位",
+					"equalTo":"两次密码不一致"
+				},
+				"email":{
+					"required":"邮箱不能为空",
+					"email":"邮箱格式不正确"
+				}
+			}
+		});
+	});
+
+</script>
+<!-- <script type="text/javascript">
 $(function(){
     $("#form1").validate({
     	rules : {
@@ -106,7 +188,7 @@ $(function(){
     })
 });
 
-</script>
+</script> -->
 </head>
 <body>
 
